@@ -89,7 +89,7 @@ sudo echo "deb https://downloads.plex.tv/repo/deb/ public main stretch main" >> 
 More dependencies...
 
 ```
-apt-get install apt-transport-https gnupg2 wget
+apt-get install apt-transport-https gnupg2 wget avahi-daemon
 ```
 
 Add dev2day GPG key
