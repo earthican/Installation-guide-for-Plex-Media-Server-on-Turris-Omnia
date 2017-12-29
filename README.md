@@ -20,7 +20,7 @@ lxc-create -t download -n Debian
 ```
 
 - Distribution: **Debian**
-- Release: **Jessie**
+- Release: **Stretch**
 - Architecture: **armv7l**
 
 ## 2. Simple Debian configuration
@@ -28,12 +28,16 @@ lxc-create -t download -n Debian
 Connect to container:
 
 ```
+lxc-start -n Debian
 lxc-attach -n Debian
 ```
 
 Change hostname (for eg. `Debian`):
 
 ```
+apt-get update
+apt-get upgrade
+apt-get install nano
 nano /etc/hostname
 ```
 
@@ -55,7 +59,7 @@ Install packages:
 apt-get install git-core openssh-server rsync sudo fakeroot cifs-utils -y
 ```
 
-Create your user (eg. `petr`):
+[Optional] Create your user (eg. `petr`):
 
 ```
 adduser petr
@@ -78,7 +82,20 @@ sudo su petr
 Add repository
 
 ```
-echo "deb http://dl.bintray.com/tproenca/pmsarm7 jessie main" | sudo tee /etc/apt/sources.list.d/pms.list
+echo "deb https://dev2day.de/pms/ stretch main" | sudo tee /etc/apt/sources.list.d/pms.list
+sudo echo "deb https://downloads.plex.tv/repo/deb/ public main stretch main" >> /etc/apt/sources.list
+```
+
+More dependencies...
+
+```
+apt-get install apt-transport-https gnupg2 wget
+```
+
+Add dev2day GPG key
+
+```
+wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | sudo apt-key add -
 ```
 
 Fix for automatic start:
@@ -91,7 +108,7 @@ Install:
 
 ```
 sudo apt-get update
-sudo apt-get install plexmediaserver
+sudo apt-get install -t stretch plexmediaserver-installer
 ```
 
 ## 4. Connect to CIFS
