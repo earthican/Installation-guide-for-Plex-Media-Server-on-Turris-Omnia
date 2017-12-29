@@ -133,6 +133,37 @@ Add mount to `/etc/fstab` (set `uid` from `plex` user)
 
 [For more about CIFS mount](http://midactstech.blogspot.cz/2013/09/how-to-mount-windows-cifs-share-on_18.html)
 
+## 5. Mount Disk From Host to LXC
+
+```
+# ls -la /dev/sda1 # or whatever your device path is
+brw-r--r--    1 root     root        8,   1 Dec 28 22:09 /dev/sda1
+```
+
+Mount your drive
+
+```
+mount /dev/sda1 /media/video
+```
+
+Take note of the **8** and note whatever your number is.
+
+Edit LXC config
+
+```
+nano /srv/lxc/Debian/config
+```
+
+Add the following lines:
+
+```
+# Mount drives
+lxc.cgroup.devices.allow = c 8:* rwm
+lxc.mount.entry = /media/video/ media/video none bind,optional,create=dir 0 0
+```
+
+Again, note the **8** in the first line and replace with yours
+
 ## Credits
 
 [Plex Media Server ARM package for Debian/Ubuntu Linux](https://tproenca.github.io/pmsarm7/)
